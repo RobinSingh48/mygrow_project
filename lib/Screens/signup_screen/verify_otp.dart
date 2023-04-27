@@ -1,5 +1,6 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pin_code_text_field/pin_code_text_field.dart';
@@ -18,18 +19,23 @@ class _VerifyOTPState extends State<VerifyOTP> {
   TextEditingController otpController = TextEditingController();
 
   var otpCode;
+  UserCredential? userData;
 
-  void verifyOTP()async{
+  Future<void> verifyOTP()async{
     PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: widget.verificationId, smsCode: otpCode);
     try{
       UserCredential usercredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      userData = usercredential;
       Navigator.popUntil(context, (route) => route.isFirst);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Cranes(),));
+
+
     }on FirebaseException catch(ex){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ex.code.toUpperCase().toString()),backgroundColor: Colors.red,));
     }
 
   }
+
 
   @override
   Widget build(BuildContext context) {
