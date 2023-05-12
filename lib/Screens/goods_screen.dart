@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../App_Manager/media_query_utils.dart';
 import '../widgets/category_widgets.dart';
 import '../widgets/crane_bottom_custom_container.dart';
 import '../widgets/goodsscreen_clickable_container.dart';
@@ -13,8 +14,37 @@ class GoodsScreen extends StatefulWidget {
   @override
   State<GoodsScreen> createState() => _GoodsScreenState();
 }
-
+int? selectedGoodIcon = 0;
 class _GoodsScreenState extends State<GoodsScreen> {
+
+  String? goodIconValue;
+
+  void onGoodIconClicked(int index) {
+    setState(() {
+      selectedGoodIcon = index;
+
+    });
+    print(selectedCraneIcon);
+    if(selectedIndex==0){
+      goodIconValue = "car";
+
+    }else if(selectedCraneIcon==1){
+      goodIconValue = "auto";
+
+    }else if(selectedCraneIcon==2){
+      goodIconValue = "bike";
+    }else if(selectedCraneIcon==3){
+      goodIconValue = "outstation";
+    }else if(selectedCraneIcon==4){
+      goodIconValue = "parcel";
+    }else if(selectedCraneIcon==5){
+      goodIconValue = "parcel";
+    }else if(selectedCraneIcon==6){
+      goodIconValue = "parcel";
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,13 +54,13 @@ class _GoodsScreenState extends State<GoodsScreen> {
             child: Column(
               children: [
                 Container(
-                  height: 610,
+                  height: Utils.getHeight(context)/1.15,
                   child: Stack(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 40),
+                        padding:  EdgeInsets.only(top: Utils.getHeight(context)/16),
                         child: Container(
-                          height: 610,
+                          height: Utils.getHeight(context)/1.35,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               color: Colors.blue,
@@ -40,21 +70,127 @@ class _GoodsScreenState extends State<GoodsScreen> {
                       ),
                       ClickableContainersRow(),
                       Padding(
-                        padding: const EdgeInsets.only(top: 54),
-                        child: Container(
-                          color: Colors.white,
-                          height: 70,
-                          width: double.infinity,
-                          child: Center(
-                            child: Text("Auto,Ace,407/Pickup",style: TextStyle(color: Colors.red),),
+                        padding:  EdgeInsets.only(top: Utils.getHeight(context)/12.80),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Container(
+                              color: Colors.white,
+                              height: Utils.getHeight(context)/6.6,
+
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding:  EdgeInsets.only(top: Utils.getHeight(context)/50,left: Utils.getHeight(context)/50,right: Utils.getHeight(context)/50),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: (){
+                                            onGoodIconClicked(0);
+                                          },
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                                border:selectedGoodIcon == 0 ? Border.all(color: Colors.black):null,
+
+                                              ),
+                                              height: Utils.getHeight(context)/10,
+                                              child: Image.asset("Images/good_icons/e_rickshaw.png")
+                                          ),
+                                        ),
+                                        SizedBox(width: Utils.getHeight(context)/50,),
+                                        GestureDetector(
+                                          onTap: (){onGoodIconClicked(1);},
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                                border:selectedGoodIcon == 1 ? Border.all(color: Colors.black):null,
+
+                                              ),
+                                              height: Utils.getHeight(context)/10,
+                                              child: Image.asset("Images/good_icons/tata 407.png")
+                                          ),
+                                        ),
+                                        SizedBox(width: Utils.getHeight(context)/50,),
+                                        GestureDetector(
+                                          onTap: (){onGoodIconClicked(2);},
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                                border:selectedGoodIcon == 2 ? Border.all(color: Colors.black):null,
+
+                                              ),
+                                              height: Utils.getHeight(context)/10,
+                                              child: Image.asset("Images/passenger_icons/parcel.png")
+                                          ),
+                                        ),
+                                        SizedBox(width: Utils.getHeight(context)/50,),
+                                        GestureDetector(
+                                          onTap: (){onGoodIconClicked(3);},
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                                border:selectedGoodIcon == 3 ? Border.all(color: Colors.black):null,
+
+                                              ),
+                                              height: Utils.getHeight(context)/10,
+                                              child: Image.asset("Images/good_icons/small.png")
+                                          ),
+                                        ),
+                                        SizedBox(width: Utils.getHeight(context)/50,),
+                                        GestureDetector(
+                                          onTap: (){onGoodIconClicked(4);},
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                                border:selectedGoodIcon == 4 ? Border.all(color: Colors.black):null,
+
+                                              ),
+                                              height: Utils.getHeight(context)/10,
+                                              child: Image.asset("Images/good_icons/medium.png")
+                                          ),
+                                        ),
+                                        SizedBox(width: Utils.getHeight(context)/50,),
+                                        GestureDetector(
+                                          onTap: (){onGoodIconClicked(5);},
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                                border:selectedGoodIcon == 5 ? Border.all(color: Colors.black):null,
+
+                                              ),
+                                              height: Utils.getHeight(context)/10,
+                                              child: Image.asset("Images/good_icons/large.png")
+                                          ),
+                                        ),
+                                        SizedBox(width: Utils.getHeight(context)/50,),
+                                        GestureDetector(
+                                          onTap: (){onGoodIconClicked(6);},
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                                border:selectedGoodIcon == 6 ? Border.all(color: Colors.black):null,
+
+                                              ),
+                                              height: Utils.getHeight(context)/10,
+                                              child: Image.asset("Images/good_icons/extra large.png")
+                                          ),
+                                        ),
+                                        SizedBox(width: Utils.getHeight(context)/50,),
+                                      ],
+                                    ),
+                                  ),
+
+                                ],
+                              )
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 130),
+                        padding:  EdgeInsets.only(top: Utils.getHeight(context)/4),
                         child: Container(
 
-                            height: 70,
+                            height: Utils.getHeight(context)/10,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -70,10 +206,10 @@ class _GoodsScreenState extends State<GoodsScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 220),
+                        padding:  EdgeInsets.only(top: Utils.getHeight(context)/2.75),
                         child: Container(
                             color: Colors.white,
-                            height: 70,
+                            height: Utils.getHeight(context)/12,
                             width: double.infinity,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -89,10 +225,10 @@ class _GoodsScreenState extends State<GoodsScreen> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.only(top: 320,bottom: 30),
+                        padding:  EdgeInsets.only(top: Utils.getHeight(context)/2.15,bottom: 30),
                         child: Container(
                           color: Colors.white,
-                          height: 180,
+                          height: Utils.getHeight(context)/4.5,
                           width: double.infinity,
                           child: Padding(
                             padding: const EdgeInsets.all(6.0),
@@ -109,7 +245,7 @@ class _GoodsScreenState extends State<GoodsScreen> {
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.only(top: 430),
+                        padding:  EdgeInsets.only(top: Utils.getWidth(context)/1.05),
                         child: Center(
                           child: ElevatedButton(
                               style: ButtonStyle(
@@ -121,7 +257,7 @@ class _GoodsScreenState extends State<GoodsScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 550),
+                        padding:  EdgeInsets.only(top: Utils.getHeight(context)/1.32),
                         child: Container(
                           width: double.infinity,
                           height: 70,

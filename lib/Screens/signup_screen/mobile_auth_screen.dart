@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'dart:convert';
+import 'dart:math';
+import 'package:http/http.dart'as http;
 import 'package:flutter/material.dart';
 import 'package:mygrow_software_project/Screens/signup_screen/verify_otp.dart';
 
@@ -13,23 +14,47 @@ class MobileAuthenticationScreen extends StatefulWidget {
 
 class _MobileAuthenticationScreenState extends State<MobileAuthenticationScreen> {
 
-  String? _phoneNumber;
+
 
   TextEditingController _phoneController = TextEditingController();
 
-  void sendOtp()async{
-    _phoneNumber = "+91"+ _phoneController.text.trim();
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: _phoneNumber,
-      codeSent: (verificationId, forceResendingToken) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOTP(verificationId: verificationId),));
-      },
-      verificationCompleted: (phoneAuthCredential) {},
-      verificationFailed: (error) {},
-      codeAutoRetrievalTimeout: (verificationId) {},
-      timeout: Duration(seconds: 60),
-    );
+  String? _phoneNumber;
+
+  late var otp;
+
+  int generateOTP() {
+    Random random = new Random();
+    return (1000 + random.nextInt(9000));
   }
+
+
+  Future<Map<String, dynamic>> sendSMS() async {
+    final url = 'https://smsapi.edumarcsms.com/api/v1/sendsms';
+    final headers = {
+      'Content-Type': 'application/json',
+      'apikey': 'cjlpehwde000ugdquxea8ta5u',
+    };
+    otp = generateOTP();
+    final body = json.encode({
+      'number': [_phoneNumber],
+      'message': 'Your ${_phoneNumber} (Powered by Edumarc Technologies) OTP for verification is: ${otp}. Code is valid for 2 minutes. OTP is confidential, refrain from sharing it with anyone.',
+      'senderId': 'EDUMRC',
+      'templateId': '1707167291733893032',
+    });
+
+    final response = await http.post(Uri.parse(url), headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOTP(otp: otp),));
+      return {'otp': otp};
+
+    } else {
+      // Send SMS failed, throw an exception or return an error message
+      throw Exception('Failed to send SMS: ${response.body}');
+    }
+  }
+
+
 
   bool _validatePhoneNumber(String value) {
 
@@ -114,7 +139,7 @@ class _MobileAuthenticationScreenState extends State<MobileAuthenticationScreen>
                               style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.grey,)),
                               child: Text('Send Otp',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
                               onPressed: _phoneNumber == null ? null : () {
-                                sendOtp();
+                               sendSMS();
                               },
                             ),
                           )

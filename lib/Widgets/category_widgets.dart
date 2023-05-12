@@ -9,17 +9,21 @@ class ClickableContainersRow extends StatefulWidget {
   @override
   _ClickableContainersRowState createState() => _ClickableContainersRowState();
 }
-
+int? selectedIndex = 2;
 class _ClickableContainersRowState extends State<ClickableContainersRow> {
-  int selectedIndex = -1;
+
+
 
   void onContainerClicked(int index) {
     setState(() {
       selectedIndex = index;
     });
+    print(selectedIndex);
     if(selectedIndex==0){
+
       Navigator.push(context, MaterialPageRoute(builder: (context) => PassengerScreen(),));
     }else if(selectedIndex==1){
+
       Navigator.push(context, MaterialPageRoute(builder: (context) => GoodsScreen(),));
     }else if(selectedIndex==2){
       Navigator.push(context, MaterialPageRoute(builder: (context) => Cranes(),));
@@ -43,7 +47,6 @@ class _ClickableContainersRowState extends State<ClickableContainersRow> {
             height: 50.0,
             width: 100.0,
             child: Center(child: Text("Passenger",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
-
           ),
         ),
         GestureDetector(
@@ -58,7 +61,6 @@ class _ClickableContainersRowState extends State<ClickableContainersRow> {
             height: 50.0,
             width: 100.0,
             child: Center(child: Text("Goods",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
-
           ),
         ),
         GestureDetector(

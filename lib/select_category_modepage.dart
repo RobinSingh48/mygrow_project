@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 
-import '../App_Manager/media_query_utils.dart';
-import '../App_Manager/string_manager.dart';
-import 'Crane_Service_Category/select_crane_type_crane_service.dart';
-import 'Goods_Mobility_Category/goods_mobility_modescreen.dart';
-import 'Passenger_Mobility_Category/passenger_mobility_modescreen.dart';
+import 'App_Manager/media_query_utils.dart';
+import 'App_Manager/string_manager.dart';
+import 'Map_Category/Crane_Service_Category/select_crane_type_crane_service.dart';
+import 'Map_Category/Goods_Mobility_Category/goods_mobility_modescreen.dart';
+import 'Map_Category/Passenger_Mobility_Category/passenger_mobility_modescreen.dart';
 
 class SelectCategoryModeScreen extends StatefulWidget {
   const SelectCategoryModeScreen({Key? key}) : super(key: key);

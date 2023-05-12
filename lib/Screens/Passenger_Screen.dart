@@ -1,13 +1,60 @@
+
+
 import 'package:flutter/material.dart';
 
 
+import '../App_Manager/media_query_utils.dart';
+import '../App_Manager/string_manager.dart';
 import '../widgets/category_widgets.dart';
 import '../widgets/crane_bottom_custom_container.dart';
 import '../widgets/passenger_screen_clickable_containers.dart';
-import 'cranes.dart';
 
-class PassengerScreen extends StatelessWidget {
+
+class PassengerScreen extends StatefulWidget {
   const PassengerScreen({Key? key}) : super(key: key);
+
+  @override
+  State<PassengerScreen> createState() => _PassengerScreenState();
+}
+
+int? selectedIcon = 0;
+class _PassengerScreenState extends State<PassengerScreen> {
+
+  bool bike = false;
+  bool car = true;
+
+
+
+
+  TextEditingController pickupController  = TextEditingController();
+  TextEditingController destinationController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController instruction = TextEditingController();
+
+
+  String? iconValue;
+
+
+  void onIconClicked(int index) {
+    setState(() {
+      selectedIcon = index;
+
+    });
+    print(selectedIcon);
+    if(selectedIndex==0){
+      iconValue = "car";
+
+    }else if(selectedIcon==1){
+      iconValue = "auto";
+
+    }else if(selectedIcon==2){
+      iconValue = "bike";
+    }else if(selectedIcon==3){
+      iconValue = "outstation";
+    }else if(selectedIcon==4){
+      iconValue = "parcel";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +64,13 @@ class PassengerScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 550,
+                height: (car)?Utils.getHeight(context)/0.90:Utils.getHeight(context)/1.7,
                 child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 40),
+                      padding:  EdgeInsets.only(top: Utils.getHeight(context)/16),
                       child: Container(
-                        height: 550,
+                        height: Utils.getHeight(context)/0.95,
                         width: double.infinity,
                         decoration: BoxDecoration(
                             color: Colors.blue,
@@ -33,21 +80,133 @@ class PassengerScreen extends StatelessWidget {
                     ),
                     ClickableContainersRow(),
                     Padding(
-                      padding: const EdgeInsets.only(top: 54),
+                      padding: EdgeInsets.only(top: Utils.getHeight(context)/12.80),
                       child: Container(
                         color: Colors.white,
-                        height: 50,
-                        width: double.infinity,
-                        child: Center(
-                          child: Text("Out Station/Function",style: TextStyle(color: Colors.red),),
-                        ),
+                        height: (car)?Utils.getHeight(context)/7.0:Utils.getHeight(context)/8,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:  EdgeInsets.only(top: Utils.getHeight(context)/50,left: Utils.getHeight(context)/50,right: Utils.getHeight(context)/50),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    InkWell(
+                                      onTap: (){
+
+                                        setState(() {
+                                          onIconClicked(0);
+                                          bike = false;
+                                          car = true;
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          border:selectedIcon == 0 ? Border.all(color: Colors.black):null,
+
+                                        ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/passenger_icons/car.png",fit: BoxFit.cover,)
+                                      ),
+                                    ),
+                                    SizedBox(width: Utils.getHeight(context)/50,),
+                                    InkWell(
+
+                                      onTap: (){
+
+                                        setState(() {
+                                          onIconClicked(1);
+                                          bike = true;
+                                          car = false;
+                                        });
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border:selectedIcon == 1 ? Border.all(color: Colors.black):null,
+
+                                          ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/passenger_icons/auto.png")
+                                      ),
+                                    ),
+                                    SizedBox(width: Utils.getHeight(context)/50,),
+                                    InkWell(
+                                      onTap: (){
+                                        onIconClicked(2);
+                                        setState(() {
+                                          bike = true;
+                                          car = false;
+
+                                        });
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border:selectedIcon == 2 ? Border.all(color: Colors.black):null,
+
+                                          ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/passenger_icons/bike.png")
+                                      ),
+                                    ),
+                                    SizedBox(width: Utils.getHeight(context)/50,),
+                                    InkWell(
+                                      onTap: (){
+                                        onIconClicked(3);
+                                        setState(() {
+                                         bike = false;
+                                         car = true;
+
+                                        });
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: selectedIcon == 3 ? Border.all(color: Colors.black):null,
+
+                                          ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/passenger_icons/outstation.png")
+                                      ),
+                                    ),
+                                    SizedBox(width: Utils.getHeight(context)/50,),
+                                    InkWell(
+                                      onTap: (){
+                                        onIconClicked(4);
+                                        setState(() {
+                                          bike = false;
+                                          car = true;
+                                        });
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border:selectedIcon == 4 ? Border.all(color: Colors.black):null,
+
+                                          ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/passenger_icons/parcel.png")
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        )
                       ),
                     ),
+                    if(car)
                     Padding(
-                      padding: const EdgeInsets.only(top: 108),
+                      padding:  EdgeInsets.only(top: Utils.getWidth(context)/2.60),
                       child: Container(
 
-                          height: 70,
+                          height: Utils.getHeight(context)/10,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -56,8 +215,9 @@ class PassengerScreen extends StatelessWidget {
                           child: ClickableContainersRowPassenger()
                       ),
                     ),
+                    if(car)
                     Padding(
-                      padding: const EdgeInsets.only(top: 182),
+                      padding:  EdgeInsets.only(top: Utils.getWidth(context)/1.76),
                       child: Container(
                           color: Colors.white,
                           height: 70,
@@ -101,9 +261,9 @@ class PassengerScreen extends StatelessWidget {
                           )
                       ),
                     ),
-
+                    if(car)
                     Padding(
-                      padding: const EdgeInsets.only(top: 256),
+                      padding:  EdgeInsets.only(top: Utils.getWidth(context)/1.32),
                       child: Container(
                           color: Colors.white,
                           height: 60,
@@ -119,9 +279,9 @@ class PassengerScreen extends StatelessWidget {
                           )
                       ),
                     ),
-
+                    if(car)
                     Padding(
-                      padding: const EdgeInsets.only(top: 320),
+                      padding:  EdgeInsets.only(top: Utils.getWidth(context)/1.08),
                       child: Container(
                           color: Colors.white,
                           height: 70,
@@ -158,21 +318,108 @@ class PassengerScreen extends StatelessWidget {
                           )
                       ),
                     ),
+                    if(car)
+                    Padding(
+                      padding:  EdgeInsets.only(top: Utils.getWidth(context)/0.89),
+                      child: Container(
+                          color: Colors.white,
+                          height: 70,
+                          width: double.infinity,
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+
+                                  height: 50.0,
+                                  width: 200.0,
+                                  child: Center(child: Text("Numbers of Passenger :",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
+
+                                ),
+                              ),
+
+
+                              Center(child: Text("For Ride Share Option Only",style: TextStyle(color: Colors.red),),)
+                            ],
+                          )
+                      ),
+                    ),
 
                     Padding(
-                      padding: const EdgeInsets.only(top: 395,bottom: 10),
+                      padding: (car)? EdgeInsets.only(top: Utils.getHeight(context)/1.25,bottom: Utils.getHeight(context)/99): EdgeInsets.only(top: Utils.getHeight(context)/4.2,bottom: Utils.getHeight(context)/99),
                       child: Container(
                         color: Colors.white,
-                        height: 195,
+                        height: Utils.getHeight(context)/1,
                         width: double.infinity,
                         child: Padding(
                           padding: const EdgeInsets.all(6.0),
                           child: Column(
                             children: [
-                              Expanded(child: Custom_TextField(text: "Pick up",function: (){},)),
-                              Expanded(child: Custom_TextField(text: "Destination",function: (){},)),
-                              Expanded(child: Custom_TextField(text: "Your Price",function: (){},)),
-                              Expanded(child: Custom_TextField(text: "Instruction if Any*",function: (){},)),
+                               Row(
+                                 children: [
+                                   Text("Pick up",style: TextStyle(fontSize: AppFontSize.s18, fontWeight: FontWeight.bold),),
+                                 Expanded(
+                                   child: TextFormField(
+                                     controller: pickupController,
+                                     decoration: InputDecoration(
+                                       hintText: "Your Location",
+                                       border: UnderlineInputBorder(
+                                         borderSide: BorderSide(color: Colors.black,width: 5),
+                                       )
+                                     ),
+                               ),
+                                 )
+                                 ],
+                               ),
+                              Row(
+                                children: [
+                                  Text("Destination",style: TextStyle(fontSize: AppFontSize.s18, fontWeight: FontWeight.bold),),
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: destinationController,
+                                      decoration: InputDecoration(
+                                          hintText: "Your Destination",
+                                          border: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black,width: 5),
+                                          )
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Your Price",style: TextStyle(fontSize: AppFontSize.s18, fontWeight: FontWeight.bold),),
+                                  Expanded(
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      controller: pickupController,
+                                      decoration: InputDecoration(
+                                          hintText: "optional",
+                                          border: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black,width: 5),
+                                          )
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Instruction if Any*",style: TextStyle(fontSize: AppFontSize.s18, fontWeight: FontWeight.bold),),
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: pickupController,
+                                      decoration: InputDecoration(
+                                          hintText: "optional",
+                                          border: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black,width: 5),
+                                          )
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
 
                             ],
                           ),
@@ -182,7 +429,7 @@ class PassengerScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 5,),
+              SizedBox(height: Utils.getHeight(context)/95,),
               Container(
                 width: double.infinity,
                 height: 60,

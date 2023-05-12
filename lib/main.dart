@@ -1,8 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mygrow_software_project/Map_Category/Goods_Mobility_Category/PackerAndMove/company_details.dart';
+import 'package:mygrow_software_project/Screens/Passenger_Screen.dart';
+import 'package:mygrow_software_project/Screens/goods_screen.dart';
 
 import 'package:mygrow_software_project/info_handler/info_app.dart';
+import 'package:mygrow_software_project/partner_info_page.dart';
+import 'package:mygrow_software_project/select_user_or_partner.dart';
+import 'package:mygrow_software_project/wallet/payment_to_admin.dart';
 
 import 'package:provider/provider.dart';
 
@@ -28,7 +33,7 @@ class MyApp extends StatelessWidget {
       create: (context) => AppInfo(),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: MobileAuthenticationScreen(),
+        home: SelectModeScreen(),
       ),
     );
   }

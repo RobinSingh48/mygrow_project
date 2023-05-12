@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "1002421758436",
-    "project_id": "mygrow-software",
-    "storage_bucket": "mygrow-software.appspot.com"
+    "project_number": "404278849036",
+    "firebase_url": "https://mygrow-software-d0a6a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mygrow-software-d0a6a",
+    "storage_bucket": "mygrow-software-d0a6a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1002421758436:android:7c66ac2e4feb0d4a357ff1",
+        "mobilesdk_app_id": "1:404278849036:android:56c8c0b31dd65370368829",
         "android_client_info": {
           "package_name": "com.example.mygrow_software_project"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1002421758436-4vmtndh2ap3o6isq5pe9h0qed3p0medd.apps.googleusercontent.com",
+          "client_id": "404278849036-23f9tjmclt4ejuh3eh22hkmvv92sscn8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCQgHRPWQ8rcXt6felrmZJ-_UwmFTmuB1k"
+          "current_key": "AIzaSyCZI5Opw8lu2_6wss1WEsI-EQu-2jdbIXw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1002421758436-4vmtndh2ap3o6isq5pe9h0qed3p0medd.apps.googleusercontent.com",
+              "client_id": "404278849036-23f9tjmclt4ejuh3eh22hkmvv92sscn8.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "404278849036-95nmh41dlor7f0mj458fqs9gdnv9rnrd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mygrowSoftwareProject"
+              }
             }
           ]
         }

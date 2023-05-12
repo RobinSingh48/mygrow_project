@@ -8,7 +8,7 @@ import 'package:mygrow_software_project/Model/address_class.dart';
 
 import '../App_Manager/media_query_utils.dart';
 import '../App_Manager/string_manager.dart';
-import '../Map_Category/select_category_modepage.dart';
+import '../select_category_modepage.dart';
 import '../widgets/category_widgets.dart';
 import '../widgets/crane_bottom_custom_container.dart';
 import 'good_screen1.dart';
@@ -19,7 +19,7 @@ class Cranes extends StatefulWidget {
   @override
   State<Cranes> createState() => _CranesState();
 }
-
+int? selectedCraneIcon = 0;
 class _CranesState extends State<Cranes> {
   final Completer<GoogleMapController> _controllerGoogleMap =
       Completer<GoogleMapController>();
@@ -91,7 +91,38 @@ class _CranesState extends State<Cranes> {
     }
   }
 
+  TextEditingController pickupController  = TextEditingController();
+  TextEditingController destinationController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController instruction = TextEditingController();
 
+
+  String? craneIconValue;
+
+  void onCraneIconClicked(int index) {
+    setState(() {
+      selectedCraneIcon = index;
+
+    });
+    print(selectedCraneIcon);
+    if(selectedIndex==0){
+      craneIconValue = "car";
+
+    }else if(selectedCraneIcon==1){
+      craneIconValue = "auto";
+
+    }else if(selectedCraneIcon==2){
+      craneIconValue = "bike";
+    }else if(selectedCraneIcon==3){
+      craneIconValue = "outstation";
+    }else if(selectedCraneIcon==4){
+      craneIconValue = "parcel";
+    }else if(selectedCraneIcon==5){
+      craneIconValue = "parcel";
+    }else if(selectedCraneIcon==6){
+      craneIconValue = "parcel";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,14 +230,14 @@ class _CranesState extends State<Cranes> {
                 height: Utils.getHeight(context) / 17,
               ),
               Container(
-                height: Utils.getHeight(context) / 1.95,
+                height: Utils.getHeight(context) /1.8,
                 child: Stack(
                   children: [
                     Padding(
                       padding:
                           EdgeInsets.only(top: Utils.getHeight(context) / 17),
                       child: Container(
-                        height: Utils.getHeight(context) / 1.95,
+                        height: Utils.getHeight(context) / 2,
                         width: double.infinity,
                         decoration: BoxDecoration(
                             color: Colors.blue,
@@ -219,61 +250,207 @@ class _CranesState extends State<Cranes> {
                           EdgeInsets.only(top: Utils.getHeight(context) / 12.8),
                       child: Container(
                         color: Colors.white,
-                        height: Utils.getHeight(context) / 8.75,
+                        height: Utils.getHeight(context) / 6.75,
                         width: double.infinity,
-                        child: Center(
-                          child: Text(
-                            "Selected Service Related Icons",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:  EdgeInsets.only(top: Utils.getHeight(context)/50,left: Utils.getHeight(context)/50,right: Utils.getHeight(context)/50),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        onCraneIconClicked(0);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          border:selectedCraneIcon == 0 ? Border.all(color: Colors.black):null,
+
+                                        ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/cranes_icons/back_loader.png")
+                                        ),
+                                    ),
+                                    SizedBox(width: Utils.getHeight(context)/50,),
+                                    GestureDetector(
+                                      onTap: (){onCraneIconClicked(1);},
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border:selectedCraneIcon == 1 ? Border.all(color: Colors.black):null,
+
+                                          ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/cranes_icons/excavator.png")
+                                      ),
+                                    ),
+                                    SizedBox(width: Utils.getHeight(context)/50,),
+                                    GestureDetector(
+                                      onTap: (){onCraneIconClicked(2);},
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border:selectedCraneIcon == 2 ? Border.all(color: Colors.black):null,
+
+                                          ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/cranes_icons/flatbed.png")
+                                      ),
+                                    ),
+                                    SizedBox(width: Utils.getHeight(context)/50,),
+                                    GestureDetector(
+                                      onTap: (){onCraneIconClicked(3);},
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border:selectedCraneIcon == 3 ? Border.all(color: Colors.black):null,
+
+                                          ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/cranes_icons/front_loader.png")
+                                      ),
+                                    ),
+                                    SizedBox(width: Utils.getHeight(context)/50,),
+                                    GestureDetector(
+                                      onTap: (){onCraneIconClicked(4);},
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border:selectedCraneIcon == 4 ? Border.all(color: Colors.black):null,
+
+                                          ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/cranes_icons/lift_and_move.png")
+                                      ),
+                                    ),
+                                    SizedBox(width: Utils.getHeight(context)/50,),
+                                    GestureDetector(
+                                      onTap: (){onCraneIconClicked(5);},
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border:selectedCraneIcon == 5 ? Border.all(color: Colors.black):null,
+
+                                          ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/cranes_icons/mobile_crane.png")
+                                      ),
+                                    ),
+                                    SizedBox(width: Utils.getHeight(context)/50,),
+                                    GestureDetector(
+                                      onTap: (){onCraneIconClicked(6);},
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border:selectedCraneIcon == 6 ? Border.all(color: Colors.black):null,
+
+                                          ),
+                                          height: Utils.getHeight(context)/10,
+                                          child: Image.asset("Images/cranes_icons/toe.png")
+                                      ),
+                                    ),
+                                    SizedBox(width: Utils.getHeight(context)/50,),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        )
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.only(top: Utils.getHeight(context) / 4.90),
+                      padding:  EdgeInsets.only(top: Utils.getHeight(context)/4.2,bottom: Utils.getHeight(context)/99),
                       child: Container(
                         color: Colors.white,
-                        height: Utils.getHeight(context) / 3.5,
+                        height: Utils.getHeight(context)/1,
                         width: double.infinity,
                         child: Padding(
-                          padding:
-                              EdgeInsets.all(Utils.getHeight(context) / 50),
+                          padding: const EdgeInsets.all(6.0),
                           child: Column(
                             children: [
                               Row(
                                 children: [
-                                  Text("PickUp"),
+                                  Text("Pick up",style: TextStyle(fontSize: AppFontSize.s18, fontWeight: FontWeight.bold),),
                                   Expanded(
-                                    child: TextField(
-                                      readOnly: true,
-                                      onTap: () {
-                                        setState(() {});
-                                      },
-                                      decoration: InputDecoration(
-                                          border: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.black,
-                                                  width: 5))),
+                                    child: Padding(
+                                      padding:  EdgeInsets.only(left: Utils.getHeight(context)/25),
+                                      child: TextFormField(
+                                        controller: pickupController,
+                                        decoration: InputDecoration(
+                                            hintText: "        Your Location",
+                                            border: UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.black,width: 5),
+                                            )
+                                        ),
+                                      ),
                                     ),
                                   )
                                 ],
                               ),
-                              Expanded(
-                                  child: Custom_TextField(
-                                text: "Destination",
-                                function: () {},
-                              )),
-                              Expanded(
-                                  child: Custom_TextField(
-                                text: "Your Price/Hour",
-                                function: () {},
-                              )),
-                              Expanded(
-                                  child: Custom_TextField(
-                                text: "Instruction if Any*",
-                                function: () {},
-                              )),
+                              Row(
+                                children: [
+                                  Text("Destination",style: TextStyle(fontSize: AppFontSize.s18, fontWeight: FontWeight.bold),),
+                                  Expanded(
+                                    child: Padding(
+                                      padding:  EdgeInsets.only(left: Utils.getHeight(context)/40),
+                                      child: TextFormField(
+                                        controller: destinationController,
+                                        decoration: InputDecoration(
+                                            hintText: "    Your Destination",
+                                            border: UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.black,width: 5),
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Your Price",style: TextStyle(fontSize: AppFontSize.s18, fontWeight: FontWeight.bold),),
+                                  Expanded(
+                                    child: Padding(
+                                      padding:  EdgeInsets.only(left: Utils.getHeight(context)/25),
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        controller: pickupController,
+                                        decoration: InputDecoration(
+                                            hintText: "optional",
+                                            border: UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.black,width: 5),
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Instruction if Any*",style: TextStyle(fontSize: AppFontSize.s18, fontWeight: FontWeight.bold),),
+                                  Expanded(
+                                    child: Padding(
+                                      padding:  EdgeInsets.only(left: Utils.getHeight(context)/40),
+                                      child: TextFormField(
+                                        controller: pickupController,
+                                        decoration: InputDecoration(
+                                            hintText: "optional",
+                                            border: UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.black,width: 5),
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+
                             ],
                           ),
                         ),
