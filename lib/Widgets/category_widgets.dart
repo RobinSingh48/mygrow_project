@@ -9,7 +9,7 @@ class ClickableContainersRow extends StatefulWidget {
   @override
   _ClickableContainersRowState createState() => _ClickableContainersRowState();
 }
-int? selectedIndex = 2;
+int selectedIndex = 2;
 class _ClickableContainersRowState extends State<ClickableContainersRow> {
 
 
@@ -17,17 +17,19 @@ class _ClickableContainersRowState extends State<ClickableContainersRow> {
   void onContainerClicked(int index) {
     setState(() {
       selectedIndex = index;
+      if(selectedIndex==0){
+        Navigator.pop(context,index);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PassengerScreen(),));
+      }else if(selectedIndex==1){
+        Navigator.pop(context,index);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => GoodsScreen(),));
+      }else if(selectedIndex==2){
+        Navigator.pop(context,index);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Cranes(),));
+      };
     });
     print(selectedIndex);
-    if(selectedIndex==0){
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => PassengerScreen(),));
-    }else if(selectedIndex==1){
-
-      Navigator.push(context, MaterialPageRoute(builder: (context) => GoodsScreen(),));
-    }else if(selectedIndex==2){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Cranes(),));
-    };
   }
 
   @override

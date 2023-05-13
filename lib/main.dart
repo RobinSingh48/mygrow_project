@@ -1,4 +1,4 @@
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:mygrow_software_project/Map_Category/Goods_Mobility_Category/PackerAndMove/company_details.dart';
 import 'package:mygrow_software_project/Screens/Passenger_Screen.dart';
@@ -18,9 +18,7 @@ import 'firebase_options.dart';
 
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
   runApp(const MyApp());
 }
 
@@ -33,7 +31,7 @@ class MyApp extends StatelessWidget {
       create: (context) => AppInfo(),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SelectModeScreen(),
+        home: Cranes(),
       ),
     );
   }

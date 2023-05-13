@@ -1,7 +1,8 @@
 
 
 import 'package:flutter/material.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 import '../App_Manager/media_query_utils.dart';
 import '../App_Manager/string_manager.dart';
@@ -17,11 +18,10 @@ class PassengerScreen extends StatefulWidget {
   State<PassengerScreen> createState() => _PassengerScreenState();
 }
 
-int? selectedIcon = 0;
+int selectedIcon = 0;
 class _PassengerScreenState extends State<PassengerScreen> {
 
-  bool bike = false;
-  bool car = true;
+
 
 
 
@@ -32,29 +32,45 @@ class _PassengerScreenState extends State<PassengerScreen> {
   TextEditingController instruction = TextEditingController();
 
 
-  String? iconValue;
+  String iconValue = "car";
 
 
-  void onIconClicked(int index) {
+
+  void onIconClicked(int iconIndex) {
     setState(() {
-      selectedIcon = index;
-
+      selectedIcon = iconIndex;
     });
-    print(selectedIcon);
-    if(selectedIndex==0){
-      iconValue = "car";
 
-    }else if(selectedIcon==1){
-      iconValue = "auto";
 
-    }else if(selectedIcon==2){
-      iconValue = "bike";
-    }else if(selectedIcon==3){
-      iconValue = "outstation";
-    }else if(selectedIcon==4){
-      iconValue = "parcel";
+  }
+  //String values  for When Clicked on OutStation
+String? selectedCarValue;
+
+  String? selectVehicleTypeValue;
+
+  String rideShareValue = "Entire Cabin";
+
+  TextEditingController numberOfPassengerController = TextEditingController();
+
+  //String values if Clicked on Parcel Icon
+
+  String selectParcelCabin = "Key";
+ TextEditingController parcelDescriptionController = TextEditingController();
+
+ //image pickup function for parcel
+  File? _image;
+
+  Future<void> _getPracelImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +80,15 @@ class _PassengerScreenState extends State<PassengerScreen> {
           child: Column(
             children: [
               Container(
-                height: (car)?Utils.getHeight(context)/0.90:Utils.getHeight(context)/1.7,
+                height: (iconValue == "outstation" && rideShareValue == "Ride Share")?
+                Utils.getHeight(context)/0.90 :
+                (iconValue == "outstation" && rideShareValue == "Entire Cabin")?
+                Utils.getHeight(context)/0.98 :
+                (iconValue== "parcel"&& selectParcelCabin == "Key" || iconValue== "parcel"&& selectParcelCabin == "Letter")?
+                Utils.getHeight(context)/1.45:
+                (iconValue== "parcel"&& selectParcelCabin == "Box" || iconValue== "parcel"&& selectParcelCabin == "Other")?
+                Utils.getHeight(context)/1.1 :
+                Utils.getHeight(context)/1.7,
                 child: Stack(
                   children: [
                     Padding(
@@ -83,7 +107,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                       padding: EdgeInsets.only(top: Utils.getHeight(context)/12.80),
                       child: Container(
                         color: Colors.white,
-                        height: (car)?Utils.getHeight(context)/7.0:Utils.getHeight(context)/8,
+                        height: (iconValue =="bike" || iconValue =="car" || iconValue =="auto")?Utils.getHeight(context)/7.0:(iconValue =="parcel")?Utils.getHeight(context)/7.0:Utils.getHeight(context)/7,
                         child: Column(
                           children: [
                             Padding(
@@ -95,11 +119,12 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                   children: [
                                     InkWell(
                                       onTap: (){
-
+                                        onIconClicked(0);
+                                        iconValue = "car";
+                                        print(iconValue);
                                         setState(() {
-                                          onIconClicked(0);
-                                          bike = false;
-                                          car = true;
+
+
                                         });
                                       },
                                       child: Container(
@@ -116,11 +141,11 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                     InkWell(
 
                                       onTap: (){
-
+                                        onIconClicked(1);
+                                        iconValue = "auto";
+                                        print(iconValue);
                                         setState(() {
-                                          onIconClicked(1);
-                                          bike = true;
-                                          car = false;
+
                                         });
                                       },
                                       child: Container(
@@ -137,9 +162,10 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                     InkWell(
                                       onTap: (){
                                         onIconClicked(2);
+                                        iconValue = "bike";
+                                        print(iconValue);
                                         setState(() {
-                                          bike = true;
-                                          car = false;
+
 
                                         });
                                       },
@@ -157,9 +183,9 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                     InkWell(
                                       onTap: (){
                                         onIconClicked(3);
+                                        iconValue = "outstation";
+                                        print(iconValue);
                                         setState(() {
-                                         bike = false;
-                                         car = true;
 
                                         });
                                       },
@@ -177,9 +203,10 @@ class _PassengerScreenState extends State<PassengerScreen> {
                                     InkWell(
                                       onTap: (){
                                         onIconClicked(4);
+                                        iconValue = "parcel";
                                         setState(() {
-                                          bike = false;
-                                          car = true;
+
+
                                         });
                                       },
                                       child: Container(
@@ -201,9 +228,9 @@ class _PassengerScreenState extends State<PassengerScreen> {
                         )
                       ),
                     ),
-                    if(car)
+                    if(iconValue == "outstation")
                     Padding(
-                      padding:  EdgeInsets.only(top: Utils.getWidth(context)/2.60),
+                      padding:  EdgeInsets.only(top: Utils.getWidth(context)/2.62),
                       child: Container(
 
                           height: Utils.getHeight(context)/10,
@@ -215,53 +242,180 @@ class _PassengerScreenState extends State<PassengerScreen> {
                           child: ClickableContainersRowPassenger()
                       ),
                     ),
-                    if(car)
-                    Padding(
-                      padding:  EdgeInsets.only(top: Utils.getWidth(context)/1.76),
-                      child: Container(
-                          color: Colors.white,
-                          height: 70,
-                          width: double.infinity,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text("Cabin :",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400),),
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.blue,
+                 if(iconValue == "outstation")
+                  Padding(
+                    padding:  EdgeInsets.only(top: Utils.getWidth(context)/1.76),
+                    child: Container(
+                        color: Colors.white,
+                        height: 70,
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text("Cabin :",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400),),
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      selectedCarValue = "AC";
+                                    });
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: selectedCarValue == "AC"? Colors.amber:Colors.blue,
                                     radius: 8,
                                   ),
-                                  SizedBox(width: 10,),
-                                  Text("AC",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400))
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.blue,
+                                ),
+                                SizedBox(width: 10,),
+                                Text("AC",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400))
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      selectedCarValue = "Non Ac";
+                                    });
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: selectedCarValue == "Non Ac"? Colors.amber:Colors.blue,
                                     radius: 8,
                                   ),
-                                  SizedBox(width: 10,),
-                                  Text("Non AC",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400))
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.blue,
+                                ),
+                                SizedBox(width: 10,),
+                                Text("Non AC",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400))
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      selectedCarValue = "Any";
+                                    });
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: selectedCarValue == "Any"? Colors.amber:Colors.blue,
                                     radius: 8,
                                   ),
-                                  SizedBox(width: 10,),
-                                  Text("Any",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400))
-                                ],
-                              ),
+                                ),
+                                SizedBox(width: 10,),
+                                Text("Any",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400))
+                              ],
+                            ),
 
-                            ],
-                          )
-                      ),
+                          ],
+                        )
                     ),
-                    if(car)
+                  ),
+                    if(iconValue == "parcel"&& selectParcelCabin == "Key" || iconValue == "parcel"&& selectParcelCabin == "Letter" ||iconValue == "parcel"&& selectParcelCabin == "Box" || iconValue == "parcel"&& selectParcelCabin == "Other" )//when user click on parcel
+                      Padding(
+                        padding:  EdgeInsets.only(top: Utils.getWidth(context)/2.6),
+                        child: Container(
+                            color: Colors.white,
+                            height: 70,
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text("Cabin :",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400),),
+                                Row(
+                                  children: [
+                                  GestureDetector(
+                                    onTap: (){
+                                      selectParcelCabin = "Key";
+                                      setState(() {
+
+
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: selectParcelCabin == "Key"? Colors.grey:Colors.white,
+                                      ),
+                                      height: Utils.getHeight(context)/15,
+                                      width: Utils.getHeight(context)/11,
+                                      child: Center(child: Text("Key",style: TextStyle(fontSize: AppFontSize.s18),)),
+                                    ),
+                                  )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        selectParcelCabin = "Letter";
+                                        setState(() {
+
+
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: selectParcelCabin == "Letter"? Colors.grey:Colors.white,
+                                        ),
+                                        height: Utils.getHeight(context)/15,
+                                        width: Utils.getHeight(context)/11,
+                                        child: Center(child: Text("Letter",style: TextStyle(fontSize: AppFontSize.s18))),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        selectParcelCabin = "Box";
+                                        setState(() {
+
+
+
+
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: selectParcelCabin == "Box"? Colors.grey:Colors.white,
+                                        ),
+                                        height: Utils.getHeight(context)/15,
+                                        width: Utils.getHeight(context)/11,
+                                        child: Center(child: Text("Box",style: TextStyle(fontSize: AppFontSize.s18))),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        selectParcelCabin = "Other";
+                                        setState(() {
+
+
+
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: selectParcelCabin == "Other"? Colors.grey:Colors.white,
+                                        ),
+                                        height: Utils.getHeight(context)/15,
+                                        width: Utils.getHeight(context)/11,
+                                        child: Center(child: Text("Other",style: TextStyle(fontSize: AppFontSize.s18))),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            )
+                        ),
+                      ),
+                    if(iconValue == "outstation")
                     Padding(
                       padding:  EdgeInsets.only(top: Utils.getWidth(context)/1.32),
                       child: Container(
@@ -271,15 +425,95 @@ class _PassengerScreenState extends State<PassengerScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text("vehicle type :",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 24),),
-                              SizedBox(width: 5,),
-                              Text("Any Micro Sedan SUV",style: TextStyle(fontSize: 16),),
-                              Text("Luxury",style: TextStyle(fontSize: 17,fontWeight: FontWeight.w400),)
+                              Text("vehicle type :",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 20),),
+
+                              GestureDetector(
+                                onTap: (){
+                                  setState(() {
+                                    selectVehicleTypeValue = "Any";
+                                  });
+                                },
+                                child: GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      selectVehicleTypeValue = "Any";
+                                    });
+                                  },
+                                    child: Text("Any",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: selectVehicleTypeValue == "Any"?Colors.deepOrange:Colors.black),)),
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  setState(() {
+                                    selectVehicleTypeValue = "Micro";
+                                  });
+                                },
+                                  child: Text("Micro",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: selectVehicleTypeValue == "Micro"?Colors.deepOrange:Colors.black),)),
+                              GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      selectVehicleTypeValue = "Sedan";
+                                    });
+                                  },
+                                  child: Text("Sedan",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: selectVehicleTypeValue == "Sedan"?Colors.deepOrange:Colors.black))),
+                              GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      selectVehicleTypeValue = "SUV";
+                                    });
+                                  },
+                                  child: Text("SUV",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: selectVehicleTypeValue == "SUV"?Colors.deepOrange:Colors.black))),
+                              GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      selectVehicleTypeValue = "Luxury";
+                                    });
+                                  },
+                                  child: Text("Luxury",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: selectVehicleTypeValue == "Luxury"?Colors.deepOrange:Colors.black),))
                             ],
                           )
                       ),
                     ),
-                    if(car)
+                    if(iconValue == "parcel" && selectParcelCabin == "Box" || iconValue == "parcel" && selectParcelCabin == "Other")
+                      Padding(
+                        padding:  EdgeInsets.only(top: Utils.getWidth(context)/1.75),
+                        child: Container(
+                            color: Colors.white,
+                            height: Utils.getHeight(context)/4.2,
+                            width: double.infinity,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text("Description :",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 20),),
+
+                                    Expanded(
+                                      child: TextField(
+                                        controller: parcelDescriptionController,
+                                        decoration: InputDecoration(
+                                          hintText: "Description Please",
+                                          border: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.black,
+                                              width: 5
+                                            )
+                                          )
+                                        ),
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                                SizedBox(height: Utils.getHeight(context)/25,),
+                                Text(_image==null?"No Image Selected":"Image ready"),
+                                ElevatedButton(onPressed: (){
+                                  _getPracelImage();
+                                }, child: Text("Please Upload Image"))
+                              ],
+                            )
+                        ),
+                      ),
+                    if(iconValue =="outstation")
                     Padding(
                       padding:  EdgeInsets.only(top: Utils.getWidth(context)/1.08),
                       child: Container(
@@ -289,38 +523,53 @@ class _PassengerScreenState extends State<PassengerScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: Colors.black),
+                              GestureDetector(
+                                onTap: (){
+
+                                  setState(() {
+                                    rideShareValue = "Ride Share";
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Colors.black),
+                                    color: rideShareValue == "Ride Share"? Colors.grey:Colors.white
+                                  ),
+                                  margin: EdgeInsets.all(4.0),
+                                  height: Utils.getHeight(context)/14,
+                                  width: Utils.getHeight(context)/7,
+                                  child: Center(child: Text("Ride Share",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
 
                                 ),
-                                margin: EdgeInsets.all(4.0),
-                                height: 50.0,
-                                width: 100.0,
-                                child: Center(child: Text("Ride Share",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
-
                               ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: Colors.black),
+                              GestureDetector(
+                                onTap: (){
+                                  setState(() {
+                                    rideShareValue = "Entire Cabin";
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Colors.black),
+                                      color: rideShareValue == "Entire Cabin"? Colors.grey:Colors.white
+                                  ),
+                                  margin: EdgeInsets.all(4.0),
+                                  height: Utils.getHeight(context)/14,
+                                  width: Utils.getHeight(context)/6,
+                                  child: Center(child: Text("Entire Cabin",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
 
                                 ),
-                                margin: EdgeInsets.all(4.0),
-                                height: 50.0,
-                                width: 100.0,
-                                child: Center(child: Text("Enter Cabin",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
-
                               ),
                               Center(child: Text("For Car Option Only",style: TextStyle(color: Colors.red),),)
                             ],
                           )
                       ),
                     ),
-                    if(car)
+                    if(iconValue == "outstation" && rideShareValue == "Ride Share")
                     Padding(
-                      padding:  EdgeInsets.only(top: Utils.getWidth(context)/0.89),
+                      padding:  EdgeInsets.only(top: Utils.getWidth(context)/0.90),
                       child: Container(
                           color: Colors.white,
                           height: 70,
@@ -339,14 +588,37 @@ class _PassengerScreenState extends State<PassengerScreen> {
                               ),
 
 
-                              Center(child: Text("For Ride Share Option Only",style: TextStyle(color: Colors.red),),)
+                              Expanded(
+                                child: Center(child: TextField(
+                                  keyboardType: TextInputType.number,
+                                  controller: numberOfPassengerController,
+                                  decoration: InputDecoration(
+                                    hintText: "Passenger Number",
+                                    hintStyle: TextStyle(color: Colors.red),
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.black,width: 5),
+
+                                      )
+                                    )
+                                  ),
+                                ),
+                              ),
                             ],
                           )
                       ),
                     ),
-
+                    if(iconValue == "outstation" || iconValue == "bike" || iconValue == "car" || iconValue == "auto" || rideShareValue =="Entire Cabin" || iconValue == "parcel")
                     Padding(
-                      padding: (car)? EdgeInsets.only(top: Utils.getHeight(context)/1.25,bottom: Utils.getHeight(context)/99): EdgeInsets.only(top: Utils.getHeight(context)/4.2,bottom: Utils.getHeight(context)/99),
+                      padding: (iconValue =="outstation" && rideShareValue == "Entire Cabin")?
+                      EdgeInsets.only(top: Utils.getHeight(context)/1.5,bottom: Utils.getHeight(context)/99):
+                      (iconValue =="outstation" && rideShareValue == "Ride Share")?
+                      EdgeInsets.only(top: Utils.getHeight(context)/1.28,bottom: Utils.getHeight(context)/99):
+                      (iconValue =="parcel" && selectParcelCabin == "Key" || iconValue =="parcel" && selectParcelCabin == "Letter" )?
+                      EdgeInsets.only(top: Utils.getHeight(context)/2.9,bottom: Utils.getHeight(context)/99):
+                      (iconValue =="parcel" && selectParcelCabin == "Box" || iconValue =="parcel" && selectParcelCabin == "Other" )?
+                      EdgeInsets.only(top: Utils.getHeight(context)/1.7,bottom: Utils.getHeight(context)/99):
+                      EdgeInsets.only(top: Utils.getHeight(context)/4.2,bottom: Utils.getHeight(context)/99),
                       child: Container(
                         color: Colors.white,
                         height: Utils.getHeight(context)/1,
@@ -426,6 +698,7 @@ class _PassengerScreenState extends State<PassengerScreen> {
                         ),
                       ),
                     ),
+
                   ],
                 ),
               ),
