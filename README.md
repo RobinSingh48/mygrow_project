@@ -4,7 +4,7 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This app sounds like a convenient platform for booking various transportation services. It offers the ability to book bikes, cars, autos, buses for outstation trips or parcel delivery, trucks, and even crane services. With just a click, users can access these services and choose the appropriate transportation option based on their needs and preferences. The availability of crane services specifically tailored to work hours adds further flexibility to the app.
 
 A few resources to get you started if this is your first Flutter project:
 
